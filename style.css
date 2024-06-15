@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(45deg, #92b8d7, #e0edd5); /* Gradient background */
+    overflow: hidden; /* Hide overflow */
+    position: relative;
+}
+
+.container {
+    text-align: center;
+    z-index: 1; /* Ensure content appears above the background */
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #fff; /* Change text color to white */
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 20px;
+    padding: 20px;
+    width: 300px;
+    display: inline-block;
+}
+
+.data {
+    font-size: 2em;
+    margin-top: 10px;
+}
+
+/* Animated Stars */
+.star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle 5s infinite alternate;
+    pointer-events: none; /* Prevent stars from blocking mouse events */
+}
+
+/* Add star animation keyframes */
+@keyframes twinkle {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
