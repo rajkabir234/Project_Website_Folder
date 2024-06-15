@@ -8,12 +8,17 @@ $(document).ready(function() {
     // Function to fetch data from ThingSpeak
     function fetchData() {
         $.getJSON(`https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${readApiKey}&results=${results}`, function(data) {
-            const latestFeed = data.feeds[0];
-            // Update latest values
-            $('#temperature').text(latestFeed.field1 + ' °C');
-            $('#humidity').text(latestFeed.field2 + ' %');
-            $('#soilMoisture').text(latestFeed.field3 + ' %');
-            $('#lightIntensityLux').text(latestFeed.field5 + ' Lux');
+            console.log("ThingSpeak data:", data); // Debugging line
+            if (data.feeds && data.feeds.length > 0) {
+                const latestFeed = data.feeds[0];
+                // Update latest values
+                $('#temperature').text(latestFeed.field1 + ' °C');
+                $('#humidity').text(latestFeed.field2 + ' %');
+                $('#soilMoisture').text(latestFeed.field3 + ' %');
+                $('#lightIntensityLux').text(latestFeed.field5 + ' Lux');
+            } else {
+                console.log("No data feeds available");
+            }
         }).fail(function() {
             console.log("Failed to fetch data from ThingSpeak");
         });
@@ -22,6 +27,7 @@ $(document).ready(function() {
     // Function to fetch weather from OpenWeatherMap API
     function fetchWeather() {
         $.getJSON(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`, function(data) {
+            console.log("OpenWeatherMap data:", data); // Debugging line
             const weatherDescription = data.weather[0].description;
             $('#weather').text("Weather: " + weatherDescription); // Update here
 
@@ -31,6 +37,9 @@ $(document).ready(function() {
 
             // Display live temperature
             $('#liveTemperature').text("Live Temperature: " + data.main.temp + ' °C');
+
+            // Change background based on weather
+            changeBackground(data.weather[0].icon);
         }).fail(function() {
             $('#weather').text("Weather data unavailable"); // Error message if data is unavailable
         });
@@ -69,6 +78,48 @@ $(document).ready(function() {
                 return 'fas fa-smog'; // mist
             default:
                 return 'fas fa-question'; // unknown condition
+        }
+    }
+
+    // Function to change background based on weather condition
+    function changeBackground(iconCode) {
+        $('body').removeClass();
+        switch (iconCode) {
+            case '01d':
+            case '01n':
+                $('body').addClass('clear-sky');
+                break;
+            case '02d':
+            case '02n':
+                $('body').addClass('few-clouds');
+                break;
+            case '03d':
+            case '03n':
+            case '04d':
+            case '04n':
+                $('body').addClass('scattered-clouds');
+                break;
+            case '09d':
+            case '09n':
+            case '10d':
+            case '10n':
+                $('body').addClass('rain');
+                break;
+            case '11d':
+            case '11n':
+                $('body').addClass('thunderstorm');
+                break;
+            case '13d':
+            case '13n':
+                $('body').addClass('snow');
+                break;
+            case '50d':
+            case '50n':
+                $('body').addClass('mist');
+                break;
+            default:
+                $('body').addClass('default');
+                break;
         }
     }
 
