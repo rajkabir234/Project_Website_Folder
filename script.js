@@ -3,7 +3,7 @@ $(document).ready(function() {
     const readApiKey = 'X8B5ZKQ2BJK9KFP7';
     const apiKey = 'd324d784974b473ce975c14656269ab8'; // Replace with your OpenWeatherMap API key
     const city = 'Dhulikhel'; // Your city name
-    const results = 1; // Number of entries to retrieve
+    const results = 10; // Number of entries to retrieve
 
     // Function to fetch data from ThingSpeak
     function fetchData() {
@@ -128,6 +128,6 @@ $(document).ready(function() {
     fetchWeather();
 
     // Fetch data and weather every 60 seconds
-    setInterval(fetchData, 60000);
-    setInterval(fetchWeather, 60000);
+    setInterval(fetchData, 30000);
+    setInterval(fetchWeather, 30000);
 });
