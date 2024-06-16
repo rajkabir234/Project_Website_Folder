@@ -2,7 +2,7 @@ $(document).ready(function() {
     const channelId = '2575632';
     const readApiKey = 'X8B5ZKQ2BJK9KFP7';
     const apiKey = 'd324d784974b473ce975c14656269ab8'; // Replace with your OpenWeatherMap API key
-    const city = 'Kathmandu'; // Your city name
+    const city = 'Dhulikhel'; // Your city name
     const results = 1; // Number of entries to retrieve
 
     // Function to fetch data from ThingSpeak
