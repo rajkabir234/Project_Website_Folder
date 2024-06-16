@@ -5,20 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KU GreenHouse Dashboard</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Add Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Add Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <nav>
+        <div class="nav-container">
+            <h1>IOT BASED GREEN HOUSE MONITORING & CONTROL SYSTEM <br> 3rd Year Project</h1>
+        </div>
+    </nav>
+
     <div class="container">
-        <h1>IOT BASED GREEN HOUSE MONITORING & CONTROL SYSTEM <br> ETEG 319 Project</h1>
-        <h5>Prepared By: <br>
-            Sudeepa Basnet (32006) <br>
-            Subhadra Ghimire (32013) <br>
-            Niranjan Luitel (32016) <br>
-            Kabir Rajbanshi (32023) <br> 
-        </h5>
         <div class="dashboard">
             <div class="card temperature-card">
                 <h2>Temperature</h2>
@@ -36,14 +33,20 @@
                 <h2>Light Intensity (Lux)</h2>
                 <div id="lightIntensityLux" class="data"></div>
             </div>
-            <div class="card weather-card"> <!-- Add the correct class name here -->
+            <div class="card weather-card">
                 <h2>Weather Condition</h2>
                 <div id="weather" class="data"></div>
-                <sub id="liveTemperature" class="data"></sub> <!-- Live temperature -->
-                <div id="weatherIcon" class="weather-icon"></div> <!-- Weather icon placeholder -->
+                <sub id="liveTemperature" class="data"></sub>
+                <div id="weatherIcon" class="weather-icon"></div>
             </div>
         </div>
     </div>
+
+    <footer>
+        <div class="footer-container">
+            <h5>Prepared By: Sudeepa Basnet (32006), Subhadra Ghimire (32013), Niranjan Luitel (32016), Kabir Rajbanshi (32023)</h5>
+        </div>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
