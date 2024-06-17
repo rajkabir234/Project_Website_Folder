@@ -3,7 +3,7 @@ $(document).ready(function() {
     const readApiKey = 'X8B5ZKQ2BJK9KFP7';
     const apiKey = 'd324d784974b473ce975c14656269ab8'; // Replace with your OpenWeatherMap API key
     const city = 'Dhulikhel'; // Your city name
-    const results = 10; // Number of entries to retrieve for graph
+    const results = 40; // Number of entries to retrieve for graph
 
     let modalChart;
     const modal = document.getElementById("modal");
