@@ -3,19 +3,51 @@ $(document).ready(function() {
     const readApiKey = 'X8B5ZKQ2BJK9KFP7';
     const apiKey = 'd324d784974b473ce975c14656269ab8'; // Replace with your OpenWeatherMap API key
     const city = 'Dhulikhel'; // Your city name
-    const results = 10; // Number of entries to retrieve
+    const results = 10; // Number of entries to retrieve for graph
+
+    let modalChart;
+    const modal = document.getElementById("modal");
+    const span = document.getElementsByClassName("close")[0];
+
+    // Close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+        if (modalChart) {
+            modalChart.destroy();
+        }
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            if (modalChart) {
+                modalChart.destroy();
+            }
+        }
+    }
 
     // Function to fetch data from ThingSpeak
     function fetchData() {
         $.getJSON(`https://api.thingspeak.com/channels/${channelId}/feeds.json?api_key=${readApiKey}&results=${results}`, function(data) {
             console.log("ThingSpeak data:", data); // Debugging line
             if (data.feeds && data.feeds.length > 0) {
-                const latestFeed = data.feeds[0];
-                // Update latest values
-                $('#temperature').text(latestFeed.field1 + ' °C');
-                $('#humidity').text(latestFeed.field2 + ' %');
-                $('#soilMoisture').text(latestFeed.field3 + ' %');
-                $('#lightIntensityLux').text(latestFeed.field5 + ' Lux');
+                const feeds = data.feeds;
+                const temperatures = feeds.map(feed => parseFloat(feed.field1));
+                const humidities = feeds.map(feed => parseFloat(feed.field2));
+                const soilMoistures = feeds.map(feed => parseFloat(feed.field3));
+                const lightIntensities = feeds.map(feed => parseFloat(feed.field5));
+                const timestamps = feeds.map(feed => new Date(feed.created_at).toLocaleTimeString());
+
+                updateChart(temperatureChart, timestamps, temperatures, 'Temperature (°C)');
+                updateChart(humidityChart, timestamps, humidities, 'Humidity (%)');
+                updateChart(soilMoistureChart, timestamps, soilMoistures, 'Soil Moisture (%)');
+                updateChart(lightIntensityChart, timestamps, lightIntensities, 'Light Intensity (Lux)');
+
+                // Update numerical values
+                $('#temperature').text(temperatures[temperatures.length - 1] + ' °C');
+                $('#humidity').text(humidities[humidities.length - 1] + ' %');
+                $('#soilMoisture').text(soilMoistures[soilMoistures.length - 1] + ' %');
+                $('#lightIntensityLux').text(lightIntensities[lightIntensities.length - 1] + ' Lux');
             } else {
                 console.log("No data feeds available");
             }
@@ -123,11 +155,157 @@ $(document).ready(function() {
         }
     }
 
+    // Function to update the chart data
+    function updateChart(chart, labels, data, label) {
+        chart.data.labels = labels;
+        chart.data.datasets[0].data = data;
+        chart.data.datasets[0].label = label;
+        chart.update();
+    }
+
+    // Event listeners for the cards
+    $('.temperature-card').click(function() {
+        openModal('Temperature', temperatureChart.data.labels, temperatureChart.data.datasets[0].data, 'Temperature (°C)');
+    });
+
+    $('.humidity-card').click(function() {
+        openModal('Humidity', humidityChart.data.labels, humidityChart.data.datasets[0].data, 'Humidity (%)');
+    });
+
+    $('.soil-moisture-card').click(function() {
+        openModal('Soil Moisture', soilMoistureChart.data.labels, soilMoistureChart.data.datasets[0].data, 'Soil Moisture (%)');
+    });
+
+    $('.light-intensity-card').click(function() {
+        openModal('Light Intensity', lightIntensityChart.data.labels, lightIntensityChart.data.datasets[0].data, 'Light Intensity (Lux)');
+    });
+
+    // Function to open the modal and display the chart
+    function openModal(title, labels, data, label) {
+        modal.style.display = "block";
+        if (modalChart) {
+            modalChart.destroy();
+        }
+
+        const ctx = document.getElementById('modalChart').getContext('2d');
+        modalChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        $('#time').text("Time: " + timeString);
+    }
+
+    // Create charts
+    const temperatureChart = new Chart(document.getElementById('temperatureChart'), {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Temperature',
+                data: [],
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const humidityChart = new Chart(document.getElementById('humidityChart'), {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Humidity',
+                data: [],
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const soilMoistureChart = new Chart(document.getElementById('soilMoistureChart'), {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Soil Moisture',
+                data: [],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const lightIntensityChart = new Chart(document.getElementById('lightIntensityChart'), {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Light Intensity',
+                data: [],
+                borderColor: 'rgba(255, 206, 86, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+
     // Fetch data and weather on page load
     fetchData();
     fetchWeather();
+    updateTime(); // Call updateTime function
 
-    // Fetch data and weather every 60 seconds
+    // Fetch data and weather every 30 seconds
     setInterval(fetchData, 30000);
     setInterval(fetchWeather, 30000);
+    setInterval(updateTime, 60000); // Update time every minute
 });
