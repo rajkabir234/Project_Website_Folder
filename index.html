@@ -6,7 +6,8 @@
     <title>KU GreenHouse Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <nav>
@@ -19,26 +20,39 @@
         <div class="dashboard">
             <div class="card temperature-card">
                 <h2>Temperature</h2>
-                <div id="temperature" class="data"></div>
+                <div id="temperature" class="data">Loading...</div>
+                <canvas id="temperatureChart" style="display:none;"></canvas>
             </div>
             <div class="card humidity-card">
                 <h2>Humidity</h2>
-                <div id="humidity" class="data"></div>
+                <div id="humidity" class="data">Loading...</div>
+                <canvas id="humidityChart" style="display:none;"></canvas>
             </div>
             <div class="card soil-moisture-card">
                 <h2>Soil Moisture</h2>
-                <div id="soilMoisture" class="data"></div>
+                <div id="soilMoisture" class="data">Loading...</div>
+                <canvas id="soilMoistureChart" style="display:none;"></canvas>
             </div>
             <div class="card light-intensity-card">
                 <h2>Light Intensity (Lux)</h2>
-                <div id="lightIntensityLux" class="data"></div>
+                <div id="lightIntensityLux" class="data">Loading...</div>
+                <canvas id="lightIntensityChart" style="display:none;"></canvas>
             </div>
             <div class="card weather-card">
                 <h2>Weather Condition</h2>
-                <div id="weather" class="data"></div>
+                <div id="weather" class="data">Loading...</div>
+                <div id="time" class="data"></div>
                 <sub id="liveTemperature" class="data"></sub>
                 <div id="weatherIcon" class="weather-icon"></div>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <canvas id="modalChart"></canvas>
         </div>
     </div>
 
