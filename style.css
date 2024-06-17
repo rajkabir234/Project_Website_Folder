@@ -8,11 +8,28 @@ body {
     height: 100vh;
     overflow: hidden;
     position: relative;
-    transition: background 1s ease-in-out;
+    animation: gradientAnimation 60s ease infinite;
+    background-size: 400% 400%;
+}
+
+/* Define keyframes for the gradient animation with light blue shades */
+@keyframes gradientAnimation {
+    0% {
+        background: linear-gradient(45deg, #add8e6, #87cefa, #b0e0e6);
+    }
+    33% {
+        background: linear-gradient(45deg, #87cefa, #b0e0e6, #add8e6);
+    }
+    66% {
+        background: linear-gradient(45deg, #b0e0e6, #add8e6, #87cefa);
+    }
+    100% {
+        background: linear-gradient(45deg, #add8e6, #87cefa, #b0e0e6);
+    }
 }
 
 .nav-container {
-    background-color: rgba(23, 24, 23, 0.9); 
+    background-color: rgba(23, 24, 23, 0.9);
     color: white;
     padding: 5px;
     text-align: center;
@@ -37,7 +54,7 @@ h1 {
 h5 {
     color: #fff;
     margin-bottom: 40px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Arial', sans-serif;
 }
 
 .container {
@@ -59,7 +76,7 @@ h5 {
 .card {
     background: rgba(255, 255, 255, 0.8);
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px;
     padding: 20px;
     width: 300px;
@@ -74,7 +91,7 @@ h5 {
 
 .card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .data {
@@ -83,7 +100,7 @@ h5 {
 }
 
 .clear-sky {
-    background: linear-gradient(to bottom, #00c6ff, #0072ff);
+    background: linear-gradient(to bottom, #add8e6, #87cefa);
 }
 
 .few-clouds {
@@ -116,7 +133,7 @@ h5 {
 }
 
 footer {
-    background-color:  rgba(23, 24, 23, 0.9); 
+    background-color: rgba(23, 24, 23, 0.9);
     color: white;
     padding: 15px;
     text-align: center;
